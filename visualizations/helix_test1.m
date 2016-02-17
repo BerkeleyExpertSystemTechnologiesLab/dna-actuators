@@ -3,6 +3,8 @@
 % Copyright 2015 Kyle Zampaglione, Andrew P. Sabelhaus
 %%Helix Test 
 
+clear all; close all; clc;
+
 %SETUP ============================================
 figure
 rungwidth = 3;

@@ -1,8 +1,10 @@
 % dna_visualization_2D.m
 % Copyright 2015 Kyle Zampaglione, Andrew P. Sabelhaus
 % A function file to draw the structure of the DNA, in cross section.
-% Function takes no arguments.
 % -------------------------------------------------------
+
+clear all; close all; clc;
+
 figure
 a=0:0.05:4*pi;
 r=1.5;

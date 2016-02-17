@@ -5,6 +5,8 @@
 % three different straight-line-edge actuator simulations.
 % It plots those fitted curves.
 
+clear all; close all; clc;
+
 %Rung Width transmission 
 
 x = linspace(0,1620,1000);

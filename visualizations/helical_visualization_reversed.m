@@ -5,8 +5,8 @@
 % Calculates change in z height for twisting of a helix
 
 
-close all
-%clear all
+close all; clear all; clc;
+
 %Initial Parameters =========================
 %K = amount of twist in radians; must be larger than 0
 %L = arc length or total length or rung
