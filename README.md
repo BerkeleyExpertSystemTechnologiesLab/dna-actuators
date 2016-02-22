@@ -18,4 +18,8 @@ simulations/ - the functions which actually simulate the lengths of the actuator
 visualizations/ - scripts and functions that provide visualizations of the
 		actuators, both helical and straight-line.
 
+To recreate the results from the ASME IDETC 2016 paper submission, run the scripts inside experiments.
+See the functions under simulations for the software implementation of the analytical models in the paper.
+
+
 Copyright 2015 Kyle Zampaglione, Andrew P. Sabelhaus, Lee-Huang Chen, Adrian K. Agogino, Alice M. Agogino
