@@ -24,17 +24,21 @@ set(RotationsFigureHandle,'Position',[100,100,450,300]);
 set(RotationsFigureHandle,'PaperPosition',[1,1,4.5,3]);
 
 title('Force at Deformation vs. Actuator Rotation')
-xlabel('Number of Rotations')
+xlabel('Rotation (units of\pi radians)')
 ylabel('Force (N)')
+
+% 2016-04-29 changed to radians as x-axis units
+experimental_rotations = experimental_rotations .* 2;
 plot(experimental_rotations,experimental_forces,'o-','LineWidth',2);
 grid on;
 grid minor;
-xlim([1 2.2])
+%xlim([1 2.2])
+xlim([2 4.4])
 ylim([0 50])
 
 % Save images
 % Create the filenames for both images
-save_path_base = 'img/pull_force_experiment_rotations';
+save_path_base = '../img/pull_force_experiment_rotations';
 save_fullpath_fig = strcat(save_path_base, '.fig');
 save_fullpath_eps = strcat(save_path_base, '.eps');
 

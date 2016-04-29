@@ -46,8 +46,12 @@ hold on
 set(RotationsFigureHandle,'Position',[100,100,450,300]);
 set(RotationsFigureHandle,'PaperPosition',[1,1,4.5,3]);
 
+% 2016-04-29: changed x-axis units from rotations to radians (pi rad.)
+% x-axis is now "pi rad." For example, "2" is "2pi"
+experimental_rotations = experimental_rotations .* 2;
+
 title('Restorative Torque vs. Actuator Rotation')
-xlabel('Number of Rotations')
+xlabel('Rotation (units of\pi radians)')
 ylabel('Restorative Torque (N-cm)')
 plot(experimental_rotations,avg_torques,'o-','LineWidth',2);
 grid on;
@@ -55,7 +59,7 @@ grid minor;
 
 % Save images
 % Create the filenames for both images
-save_path_base = 'img/restorative_torque_experiment_rotations';
+save_path_base = '../img/restorative_torque_experiment_rotations';
 save_fullpath_fig = strcat(save_path_base, '.fig');
 save_fullpath_eps = strcat(save_path_base, '.eps');
 
@@ -82,7 +86,7 @@ xlim([10,41]);
 
 % Save images
 % Create the filenames for both images
-save_path_base = 'img/restorative_torque_experiment_lengths';
+save_path_base = '../img/restorative_torque_experiment_lengths';
 save_fullpath_fig = strcat(save_path_base, '.fig');
 save_fullpath_eps = strcat(save_path_base, '.eps');
 

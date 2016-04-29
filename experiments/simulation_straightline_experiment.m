@@ -38,6 +38,11 @@ hold on
 % Position the figure for consistency
 set(PositionFigureHandle,'Position',[100,100,500,300]);
 
+% 2016-04-29: changed these to radians.
+rotations_1 = rotations_1 .* (1/180);
+rotations_2 = rotations_2 .* (1/180);
+rotations_3 = rotations_3 .* (1/180);
+
 % Plot the three curves
 plot(rotations_1, heights_1,'b')
 plot(rotations_2, heights_2,'r')
@@ -45,11 +50,13 @@ plot(rotations_3, heights_3,'g')
 
 % Label and title the first figure:
 title('Straight Line Actuator Displacement')
-xlabel('Degrees Rotated')
-ylabel('Total Length')
+xlabel('Rotation (units of\pi  radians)')
+ylabel('Total Length (inch)')
 legend('Rung Width = 1', 'Rung Width = 2','Rung Width = 3')
 %set(gca,'FontSize',12);
-xlim([0 1600])
+%xlim([0 1600])
+% 2016-04-29 replaced with radians.
+xlim([0 9]);
 ylim([0 30])
 
 % Save the first figure.
@@ -57,8 +64,8 @@ save_fullpath_disp_fig = strcat(save_path_base_disp, '.fig');
 save_fullpath_disp_eps = strcat(save_path_base_disp, '.eps');
 
 % Uncomment the lines below to save.
-%savefig(save_fullpath_disp_fig);
-%print(save_fullpath_disp_eps,'-depsc')
+savefig(save_fullpath_disp_fig);
+print(save_fullpath_disp_eps,'-depsc')
 
 % Clear the figure and start the rate-of-change plotting
 hold off
@@ -82,6 +89,11 @@ num_turns_deriv2 = linspace(rotations_2(1), rotations_2(end), ...
 num_turns_deriv3 = linspace(rotations_3(1), rotations_3(end), ...
     length(tot_height_deriv3));
 
+% 2016-04-29: changed these to radians.
+%num_turns_deriv1 = num_turns_deriv1 .* (1/180);
+%num_turns_deriv2 = num_turns_deriv2 .* (1/180);
+%num_turns_deriv3 = num_turns_deriv3 .* (1/180);
+
 % Plot the three curves
 plot(num_turns_deriv1, tot_height_deriv1,'b')
 plot(num_turns_deriv2, tot_height_deriv2, 'r')
@@ -89,16 +101,18 @@ plot(num_turns_deriv3, tot_height_deriv3, 'g')
 
 % Label and title the second figure:
 legend('Rung Width = 1', 'Rung Width = 2','Rung Width = 3') 
-xlim([0 1600])
+%xlim([0 1600])
+% 2016-04-29 replaced with radians.
+xlim([0 9]);
 title('Straight Line Actuator Rate of Length Change')
-xlabel('Degrees Rotated')
-ylabel('Rate of Length Change')
+xlabel('Rotation (units of\pi  radians)')
+ylabel('Rate of Length Change (inch/rad)')
 
 % Save the first figure.
 save_fullpath_rate_fig = strcat(save_path_base_rate, '.fig');
 save_fullpath_rate_eps = strcat(save_path_base_rate, '.eps');
 
 % Uncomment the lines below to save.
-%savefig(save_fullpath_rate_fig);
-%print(save_fullpath_rate_eps,'-depsc')
+savefig(save_fullpath_rate_fig);
+print(save_fullpath_rate_eps,'-depsc')
 

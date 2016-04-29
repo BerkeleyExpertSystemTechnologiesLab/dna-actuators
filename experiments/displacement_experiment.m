@@ -357,6 +357,9 @@ hold on
 set(FigureHandle,'Position',[100,100,450,300]);
 set(FigureHandle,'PaperPosition',[1,1,4.5,3]);
 
+% 2016-04-29 Changed x-axis units from rotations to radians.
+simulation_rotations = simulation_rotations .* 2;
+experimental_rotations = experimental_rotations .* 2;
 
 % Create the plots themselves
 plot(simulation_rotations, simulation_lengths_cm, 'r');
@@ -364,14 +367,15 @@ plot(experimental_rotations, experimental_lengths, 'b');
 
 % Add the legend, labels, and adjust the axes
 title('Experimental Displacement vs. Simulation')
-xlabel('Number of Rotations (1 rotation = 360 degrees)')
+%xlabel('Number of Rotations (1 rotation = 360 degrees)')
+xlabel('Rotation (units of\pi radians)')
 ylabel('Total Length (cm)')
 legend('Simulation','Experiment')
 ylim([5, 45]);
 
 % Save images
 % Create the filenames for both images
-save_path_base = 'img/displacement_experiment';
+save_path_base = '../img/displacement_experiment';
 save_fullpath_fig = strcat(save_path_base, '.fig');
 save_fullpath_eps = strcat(save_path_base, '.eps');
 

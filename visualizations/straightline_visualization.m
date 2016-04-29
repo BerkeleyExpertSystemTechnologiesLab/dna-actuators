@@ -35,11 +35,16 @@ for j = 1:9
     %SETUP ============================================
     FigureHandle = figure;
     hold on
-    %set(gca,'FontSize',11);
+    set(gca,'FontSize',14);
     % Set the size of the figure window
     set(FigureHandle,'Position',[100,100,150,300]);
     % Set the size of the figure window for printing (saving the fig)
     set(FigureHandle,'PaperPosition',[2,2,3,4]);
+    % Label the axes
+    xlabel('  X');
+    ylabel('Y   ');
+    %zlabel('Z');
+    
     zlim([0,18]);
     twistangle =  j*180; %set twist angle in degrees. This is the total angle of twist for the entire structure.
     angle_out(count) = twistangle; 
