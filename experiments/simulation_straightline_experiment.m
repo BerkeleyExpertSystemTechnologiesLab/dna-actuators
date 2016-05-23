@@ -113,6 +113,6 @@ save_fullpath_rate_fig = strcat(save_path_base_rate, '.fig');
 save_fullpath_rate_eps = strcat(save_path_base_rate, '.eps');
 
 % Uncomment the lines below to save.
-savefig(save_fullpath_rate_fig);
-print(save_fullpath_rate_eps,'-depsc')
+%savefig(save_fullpath_rate_fig);
+%print(save_fullpath_rate_eps,'-depsc')
 
