@@ -65,8 +65,8 @@ save_fullpath_disp_fig = strcat(save_path_base_disp, '.fig');
 save_fullpath_disp_eps = strcat(save_path_base_disp, '.eps');
 
 % Uncomment the lines below to save.
-savefig(save_fullpath_disp_fig);
-print(save_fullpath_disp_eps,'-depsc')
+%savefig(save_fullpath_disp_fig);
+%print(save_fullpath_disp_eps,'-depsc')
 
 % Clear the figure and start the rate-of-change plotting
 hold off

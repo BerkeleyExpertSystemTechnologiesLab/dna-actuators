@@ -33,21 +33,24 @@ for a = 0:10:max_twist
     %set twist angle in degrees
     twistangle =  a;   
     
-    %Calculate angle of rotation between each rung
-    indivtwist = twistangle/(number_rungs-1);
+    % Directly calculate z.
+    z = (number_rungs - 1) * sqrt( rungspacing^2 - (2 * (rungwidth/2) * sind( twistangle/(2 * (number_rungs-1))))^2 );
     
-    % Calculate the chord length between the x,y positions between two successive rungs
-    % equation for chord length: c = 2r sin(theta/2)
-    c = 2 * (rungwidth/2) * sind(indivtwist/2);
-    
-    % Calculate the z-height change for each rung, given this chord length
-    z_i = sqrt( rungspacing^2 - c^2);
-    
-    % Calculate the total z-height of the actuator.
-    % There are N-1 spaces between rungs.
-    z = z_i * (number_rungs - 1);
-    
-    % Save the result for this iteration (this angle of twist)
+%     %Calculate angle of rotation between each rung
+%     indivtwist = twistangle/(number_rungs-1);
+%     
+%     % Calculate the chord length between the x,y positions between two successive rungs
+%     % equation for chord length: c = 2r sin(theta/2)
+%     c = 2 * (rungwidth/2) * sind(indivtwist/2);
+%     
+%     % Calculate the z-height change for each rung, given this chord length
+%     z_i = sqrt( rungspacing^2 - c^2);
+%     
+%     % Calculate the total z-height of the actuator.
+%     % There are N-1 spaces between rungs.
+%     z = z_i * (number_rungs - 1);
+%     
+%     % Save the result for this iteration (this angle of twist)
     angle(count) = twistangle;
     z_total(count) = z;
     count = count+1;
