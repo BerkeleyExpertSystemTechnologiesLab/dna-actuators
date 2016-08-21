@@ -16,7 +16,8 @@ load('../data/helical_simulation_data.mat');
 PositionFigureHandle = figure;
 hold on
 %set(gca,'FontSize',11);
-set(PositionFigureHandle,'Position',[100,100,500,300]);
+%set(PositionFigureHandle,'Position',[100,100,500,300]);
+set(PositionFigureHandle,'Position',[100,100,300,300]);
 
 % 2016-04-29: changed x-axis units from rotations to radians (pi rad.)
 % x-axis is now "pi rad." For example, "2" is "2pi".
@@ -30,11 +31,12 @@ plot(num_turns15, total_height_array15, 'm')
 plot(num_turns2, total_height_array2, 'r')
 plot(num_turns2(1:length(total_height_array3)), total_height_array3, 'g')
 
-legend('Rung Width = 1','Rung Width = 1.5', ...
-    'Rung Width = 2', 'Rung Width = 3')
+legend('W=1','W=1.5', ...
+    'W=2', 'W=3')
 
 % Label and title the first figure:
-title('Helical Actuator Displacement')
+%title('Helical Actuator Displacement')
+title('Displacement')
 xlabel('Rotation (units of\pi radians)')
 ylabel('Total Height (inch)')
 
@@ -45,7 +47,8 @@ hold off
 RateFigureHandle = figure;
 hold on
 %set(gca,'FontSize',11);
-set(RateFigureHandle,'Position',[100,100,500,300]);
+%set(RateFigureHandle,'Position',[100,100,500,300]);
+set(RateFigureHandle,'Position',[100,100,300,300]);
 
 tot_height_deriv1 = diff(total_height_array1);
 num_turns_deriv1 = linspace(num_turns1(1), num_turns1(end), length(tot_height_deriv1));
@@ -72,9 +75,12 @@ num_turns_deriv3 = num_turns_deriv3 .* 3;
 plot(num_turns_deriv3, tot_height_deriv3, 'g')
 
 
-legend('Rung Width = 1','Rung Width = 1.5', ...
-    'Rung Width = 2', 'Rung Width = 3')
+%legend('Rung Width = 1 in.','Rung Width = 1.5 in.', ...
+%    'Rung Width = 2 in.', 'Rung Width = 3 in.','Location','Southwest')
+legend('W=1','W=1.5', ...
+    'W=2', 'W=3','Location','Southeast')
 xlabel('Rotation (units of\pi radians)')
 ylabel('Rate of Length Change (inch/rad)')
-title('Helical Actuator Rate of Length Change')
+%title('Helical Actuator Rate of Length Change')
+title('Rate of Length Change')
 
