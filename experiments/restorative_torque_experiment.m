@@ -73,12 +73,16 @@ hold off;
 LengthsFigureHandle = figure;
 hold on
 %set(gca,'FontSize',11);
-set(LengthsFigureHandle,'Position',[100,100,450,300]);
-set(LengthsFigureHandle,'PaperPosition',[1,1,4.5,3]);
+%set(LengthsFigureHandle,'Position',[100,100,450,300]);
+%set(LengthsFigureHandle,'PaperPosition',[1,1,4.5,3]);
+set(LengthsFigureHandle,'Position',[100,100,400,200]);
+set(LengthsFigureHandle,'PaperPosition',[1,1,4,2]);
 
-title('Restorative Torque vs. Actuator Length')
+%title('Restorative Torque vs. Actuator Length')
+title('Restorative Torque')
 xlabel('Actuator Length (cm)')
-ylabel('Restorative Torque (N-cm)')
+%ylabel('Restorative Torque (N-cm)')
+ylabel('Torque (N-cm)')
 plot(experimental_lengths,avg_torques,'o-','LineWidth',2);
 grid on;
 grid minor;

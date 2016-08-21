@@ -20,10 +20,13 @@ experimental_lengths = [35.2; 32.7; 29.4; 25.7];
 RotationsFigureHandle = figure;
 hold on
 %set(gca,'FontSize',11);
-set(RotationsFigureHandle,'Position',[100,100,450,300]);
-set(RotationsFigureHandle,'PaperPosition',[1,1,4.5,3]);
+%set(RotationsFigureHandle,'Position',[100,100,450,300]);
+%set(RotationsFigureHandle,'PaperPosition',[1,1,4.5,3]);
+set(RotationsFigureHandle,'Position',[100,100,400,200]);
+set(RotationsFigureHandle,'PaperPosition',[1,1,4,2]);
 
-title('Force at Deformation vs. Actuator Rotation')
+%title('Force at Deformation vs. Actuator Rotation')
+title('Force at Deformation')
 xlabel('Rotation (units of\pi radians)')
 ylabel('Force (N)')
 
@@ -34,11 +37,12 @@ grid on;
 grid minor;
 %xlim([1 2.2])
 xlim([2 4.4])
-ylim([0 50])
+%ylim([0 50])
+ylim([0 40])
 
 % Save images
 % Create the filenames for both images
-save_path_base = '../img/pull_force_experiment_rotations';
+save_path_base = '../img/pull_force_experiment_rotations_forpowerpoint';
 save_fullpath_fig = strcat(save_path_base, '.fig');
 save_fullpath_eps = strcat(save_path_base, '.eps');
 
