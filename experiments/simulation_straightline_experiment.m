@@ -100,7 +100,7 @@ plot(num_turns_deriv2, tot_height_deriv2, 'r')
 plot(num_turns_deriv3, tot_height_deriv3, 'g')
 
 % Label and title the second figure:
-legend('Rung Width = 1', 'Rung Width = 2','Rung Width = 3') 
+legend('Rung Width = 1', 'Rung Width = 2','Rung Width = 3','location','southwest') 
 %xlim([0 1600])
 % 2016-04-29 replaced with radians.
 xlim([0 9]);
@@ -113,6 +113,6 @@ save_fullpath_rate_fig = strcat(save_path_base_rate, '.fig');
 save_fullpath_rate_eps = strcat(save_path_base_rate, '.eps');
 
 % Uncomment the lines below to save.
-%savefig(save_fullpath_rate_fig);
-%print(save_fullpath_rate_eps,'-depsc')
+savefig(save_fullpath_rate_fig);
+print(save_fullpath_rate_eps,'-depsc')
 

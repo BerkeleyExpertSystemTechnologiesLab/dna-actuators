@@ -73,7 +73,7 @@ plot(num_turns_deriv3, tot_height_deriv3, 'g')
 
 
 legend('Rung Width = 1','Rung Width = 1.5', ...
-    'Rung Width = 2', 'Rung Width = 3')
+    'Rung Width = 2', 'Rung Width = 3','location','southwest')
 xlabel('Rotation (units of\pi radians)')
 ylabel('Rate of Length Change (inch/rad)')
 title('Helical Actuator Rate of Length Change')
