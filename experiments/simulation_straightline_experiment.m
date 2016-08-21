@@ -36,7 +36,8 @@ N = 10;
 PositionFigureHandle = figure;
 hold on
 % Position the figure for consistency
-set(PositionFigureHandle,'Position',[100,100,500,300]);
+%set(PositionFigureHandle,'Position',[100,100,500,300]);
+set(PositionFigureHandle,'Position',[100,100,300,300]);
 
 % 2016-04-29: changed these to radians.
 rotations_1 = rotations_1 .* (1/180);
@@ -49,10 +50,11 @@ plot(rotations_2, heights_2,'r')
 plot(rotations_3, heights_3,'g')
 
 % Label and title the first figure:
-title('Straight Line Actuator Displacement')
+%title('Straight-line Actuator Displacement')
+title('Displacement')
 xlabel('Rotation (units of\pi  radians)')
 ylabel('Total Length (inch)')
-legend('Rung Width = 1', 'Rung Width = 2','Rung Width = 3')
+legend('Rung Width = 1 in.', 'Rung Width = 2 in.','Rung Width = 3 in.')
 %set(gca,'FontSize',12);
 %xlim([0 1600])
 % 2016-04-29 replaced with radians.
@@ -74,7 +76,8 @@ hold off
 RateFigureHandle = figure;
 hold on
 %set(gca,'FontSize',11);
-set(RateFigureHandle,'Position',[100,100,500,300]);
+%set(RateFigureHandle,'Position',[100,100,500,300]);
+set(RateFigureHandle,'Position',[100,100,300,300]);
 
 % Calculate the derivatives of these positions
 tot_height_deriv1 = diff(heights_1);
@@ -101,10 +104,12 @@ plot(num_turns_deriv3, tot_height_deriv3, 'g')
 
 % Label and title the second figure:
 legend('Rung Width = 1', 'Rung Width = 2','Rung Width = 3','location','southwest') 
+%legend('Rung Width = 1 in.', 'Rung Width = 2 in.','Rung Width = 3 in.','Location','Southwest') 
 %xlim([0 1600])
 % 2016-04-29 replaced with radians.
 xlim([0 9]);
-title('Straight Line Actuator Rate of Length Change')
+%title('Straight-line Actuator Rate of Lenth Change')
+title('Rate of Length Change')
 xlabel('Rotation (units of\pi  radians)')
 ylabel('Rate of Length Change (inch/rad)')
 
