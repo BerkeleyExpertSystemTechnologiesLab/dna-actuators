@@ -15,28 +15,29 @@ clc; clear all; close all;
 addpath( '../analytical_models' );
 
 %% CONSTANTS FOR THE SIMULATION
+% Design I for the discrete rails. All in cm.
 % The rungs have a set width. This is also the width between the two
 % edges of the helix.
-w = 1;
+w = 2 * 2.54;
 % The initial length of the helix (also the length of a rail)
-L0 = 10;
+L0 = 30.48;
 % Number of rungs
-N = 11;
+N = 7;
 % absolute distance between rungs. This value can also be interpreted as 
 % the length of the edge of the structure between two successive rungs.
 % ell_i = 1;  
 ell_i = L0 / (N-1);
 
 % Path to store the images that are generated
-save_path_base = 'img/straightline_visualization';
+save_path_base = '../img/journal2020/D_rails_vis';
 
 % Range of input angles to evaluate.
 % Let's do it in terms of 'one rotation equals pi degrees.'
-% Maximum rotation angle:
-max_rot = 9 * pi;
+% Maximum rotation angle: 18.85 for design I.
+max_rot = 13;
 % choosing the number of rotations to be an interval of N+1 of the maximum
 % rotations makes the visualization easier: even numbers.
-num_rot = 10;
+num_rot = 3;
 % The range of input rotations to visualize, in radians, is
 rotations = linspace(0, max_rot, num_rot);
 
@@ -72,7 +73,7 @@ for j=1:size(rotations,2)
     set(gca,'FontSize',14);
     % Set the size of the figure window
     % Vertical:
-%     set(FigureHandle,'Position',[100,100,150,300]);
+    set(FigureHandle,'Position',[100,100,550,220]);
     % Set the size of the figure window for printing (saving the fig)
 %     set(FigureHandle,'PaperPosition',[2,2,3,4]);
     % Label the axes
@@ -82,19 +83,19 @@ for j=1:size(rotations,2)
     
     % For the horizontal actuator, the x-axis is length.
     % and y-z are the radial and polar coordinates
-    xlabel('Length');
+    xlabel('Length (cm)');
     ylabel('Y');
     zlabel('Z');
     
-    title('Straight-Line Actuator Visualization');
+    title('Discrete-Rails Actuator Visualization');
     
     % Vertical:
 %     zlim([0,11]);
 
     % Horizontal:
-    xlim([0, 11]);
-    zlim([-1, 1]);
-    ylim([-2, 2]);
+    xlim([0, 32]);
+    zlim([-2.6, 2.6]);
+    ylim([-2.6, 2.6]);
     %==================================================
     
     % The angle between each rung is
@@ -163,7 +164,9 @@ for j=1:size(rotations,2)
     
     % For the horizontal:
 %     view(18,18)
-    view(0,0);
+%     view(0,0);
+%     view(17,37)
+    view(26,16)
     %print final z value to screen
     z_total = z;
     z_totaled(count) = z_total; 
@@ -172,6 +175,8 @@ for j=1:size(rotations,2)
     % Save this figure
     save_fullpath_fig = strcat(save_path_base, int2str(theta_i), '.fig');
     save_fullpath_eps = strcat(save_path_base, int2str(theta_i), '.eps');
+    save_fullpath = strcat(save_path_base, int2str(theta_i));
+    saveas(gcf, save_fullpath, 'svg');
     %savefig(save_fullpath_fig);
     %print(save_fullpath_eps,'-depsc')
 end
