@@ -30,8 +30,7 @@ ell_i = L0 / (N-1);
 % Path to store the images that are generated
 save_path_base = '../img/journal2020/D_rails_vis';
 
-% Range of input angles to evaluate.
-% Let's do it in terms of 'one rotation equals pi degrees.'
+% Range of input angles to evaluate. This *should* be radians.
 % Maximum rotation angle: 18.85 for design I.
 max_rot = 15;
 % choosing the number of rotations to be an interval of N+1 of the maximum

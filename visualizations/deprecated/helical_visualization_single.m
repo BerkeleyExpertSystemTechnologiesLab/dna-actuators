@@ -102,7 +102,7 @@ save_path_base = 'img/helix_visualization';
 % Save this figure
 save_fullpath_fig = strcat(save_path_base, num2str(num_rotations), '.fig');
 save_fullpath_eps = strcat(save_path_base, num2str(num_rotations), '.eps');
-savefig(save_fullpath_fig);
-print(save_fullpath_eps,'-depsc')
+% savefig(save_fullpath_fig);
+% print(save_fullpath_eps,'-depsc')
 
 
