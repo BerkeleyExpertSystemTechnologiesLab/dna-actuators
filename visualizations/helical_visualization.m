@@ -18,12 +18,17 @@ L0 = 30.48;
 % Number of rungs. This is for visualization only.
 N = 7;
 %  We will need to discretize the points along the edges of the helix for
-%  plotting, so just choose a large number here:
-edge_discr = 100;
+%  plotting, so just choose a large number here. A multiple of N makes the
+%  plotting easier.
+edge_discr = 105;
+% An easy way to determine which points to place rungs at is in intervals
+% of 
+rung_interval = floor(edge_discr/N);
 
 % Range of input angles to evaluate. This *should* be in radians
 % Maximum rotation angle: 12 for design IV.
-max_rot = 9;
+% TO-DO: NORMALIZE TO D-RAILS!!!
+max_rot = 11.8;
 % choosing the number of rotations to be an interval of N+1 of the maximum
 % rotations makes the visualization easier: even numbers.
 num_rot = 3;
@@ -95,7 +100,7 @@ for j=1:size(rotations,2)
     y = w/2; %initial y, one of the radial coordinates
     x_prev = 0; %initial x, length
     % 0-th rung
-%     plot3([x_prev,x_prev],[-y,y], [-z,z], rungcolor, 'LineWidth', rungthickness);
+    plot3([x_prev,x_prev],[-y,y], [-z,z], rungcolor, 'LineWidth', rungthickness);
     
     for t=1:size(theta,2)
         % The x-coordinate at this value is
@@ -108,6 +113,12 @@ for j=1:size(rotations,2)
         plot3([x_prev,x], [y,y_next],[z,z_next],railcolor, 'LineWidth', railthickness);
         % For the other rail too:
         plot3([x_prev,x], [-y,-y_next],[-z,-z_next], railcolor, 'LineWidth', railthickness);
+        % If this point on the curve is where a rail is attached, i.e. this
+        % index of theta is an interval of edge_discr/N,
+        if (mod(t, rung_interval) == 0)
+            % Plot a rung.
+            plot3([x,x], [-y_next,y_next], [-z_next,z_next], rungcolor, 'LineWidth', rungthickness);
+        end
         % Update for next iteration
         z = z_next;
         y = y_next;

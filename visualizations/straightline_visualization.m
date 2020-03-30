@@ -32,7 +32,8 @@ save_path_base = '../img/journal2020/D_rails_vis';
 
 % Range of input angles to evaluate. This *should* be radians.
 % Maximum rotation angle: 18.85 for design I.
-max_rot = 15;
+%max_rot = 15;
+max_rot = 11.8;
 % choosing the number of rotations to be an interval of N+1 of the maximum
 % rotations makes the visualization easier: even numbers.
 num_rot = 3;
