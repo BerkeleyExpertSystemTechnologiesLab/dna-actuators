@@ -1,7 +1,6 @@
 % straightline_visualization.m
 % Straight-line-edge actuator visualization
-% Copyright 2015-2019 Kyle Zampaglione, Andrew P. Sabelhaus
-% 2.11.15
+% Copyright 2015-2020 Kyle Zampaglione, Andrew P. Sabelhaus
 % Calculates change in z height for twisting of a rope-ladder style helix
 % connected with rigid (straight-line) edges.
 % This simulation calculates the geometry of the structure for multiple
@@ -34,7 +33,7 @@ save_path_base = '../img/journal2020/D_rails_vis';
 % Range of input angles to evaluate.
 % Let's do it in terms of 'one rotation equals pi degrees.'
 % Maximum rotation angle: 18.85 for design I.
-max_rot = 13;
+max_rot = 15;
 % choosing the number of rotations to be an interval of N+1 of the maximum
 % rotations makes the visualization easier: even numbers.
 num_rot = 3;
@@ -166,17 +165,21 @@ for j=1:size(rotations,2)
 %     view(18,18)
 %     view(0,0);
 %     view(17,37)
-    view(26,16)
+%     view(26,16)
+    view(26,8);
     %print final z value to screen
     z_total = z;
     z_totaled(count) = z_total; 
     count = count+1;
     
+    % Trying to force vector graphics
+    set(gcf,'renderer','Painters')
+    
     % Save this figure
     save_fullpath_fig = strcat(save_path_base, int2str(theta_i), '.fig');
     save_fullpath_eps = strcat(save_path_base, int2str(theta_i), '.eps');
     save_fullpath = strcat(save_path_base, int2str(theta_i));
-    saveas(gcf, save_fullpath, 'svg');
+%     saveas(gcf, save_fullpath, 'svg');
     %savefig(save_fullpath_fig);
     %print(save_fullpath_eps,'-depsc')
 end
