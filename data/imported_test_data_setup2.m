@@ -15,8 +15,32 @@
 % NOTE: ALL TORQUE DATA IN N*CM (newton-centimeters)
 
 %% (i), 0.007, pretensioned, slide
-% TO-DO: WHERE IS THAT SPREADSHEET FROM THE IDETC PAPER?
+
+% This data copied from "restorative_torque_experiment.m", as recorded by
+% Kyle Z.
 i_slide = struct;
+
+% The input angles:
+i_slide.theta = [0; 0.25; 0.5; 0.75; 1; 1.25; 1.5; 1.75; 2; 2.25; 2.5];
+% One "rotation" is 360 degrees, i.e., 2*pi radians.
+i_slide.theta = i_slide.theta .* (2*pi);
+
+% Unloaded, 0 grams. The test was performed five times.
+% Here, each row is one test, and each column is angle of rotation.
+i_slide.g0 = [
+    0, 0.12, 0.43, 0.63, 0.71, 0.62, 0.47, 0.25, 0.21, 0.05, 0;
+    0, 0.12, 0.37, 0.57, 0.70, 0.64, 0.49, 0.29, 0.17, 0.07, 0;
+    0, 0.12, 0.37, 0.58, 0.72, 0.61, 0.50, 0.26, 0.18, 0.04, 0;
+    0, 0.06, 0.37, 0.60, 0.70, 0.67, 0.48, 0.30, 0.17, 0.08, 0;
+    0, 0.07, 0.38, 0.66, 0.73, 0.66, 0.51, 0.32, 0.20, 0.08, 0];
+
+% To have same dimensions as Ellande's data below, transpose:
+i_slide.g0 = i_slide.g0';
+
+% Convert all these torques from inch-pounds to newton-centimeters:
+lb_to_N = 4.44822;
+lbf_in_to_N_cm = lb_to_N * 2.54;
+i_slide.g0 = i_slide.g0 .* lbf_in_to_N_cm;
 
 
 %% (i), 0.007, pretensioned, bearing.

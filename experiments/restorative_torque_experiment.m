@@ -64,8 +64,8 @@ save_fullpath_fig = strcat(save_path_base, '.fig');
 save_fullpath_eps = strcat(save_path_base, '.eps');
 
 % Uncomment the lines below to save.
-savefig(save_fullpath_fig);
-print(save_fullpath_eps,'-depsc')
+% savefig(save_fullpath_fig);
+% print(save_fullpath_eps,'-depsc')
 
 hold off;
 
@@ -95,5 +95,5 @@ save_fullpath_fig = strcat(save_path_base, '.fig');
 save_fullpath_eps = strcat(save_path_base, '.eps');
 
 % Uncomment the lines below to save.
-savefig(save_fullpath_fig);
-print(save_fullpath_eps,'-depsc')
+% savefig(save_fullpath_fig);
+% print(save_fullpath_eps,'-depsc')
