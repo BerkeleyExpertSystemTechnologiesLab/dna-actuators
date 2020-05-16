@@ -10,6 +10,7 @@ clear all; close all; clc;
 
 % Plotting parameters.
 fontsize = 14;
+leg_fontsize = 10;
 fig_pos = [100,100,500,350];
 fig_paperpos = [1,1,5.8,3.5];
 % line and marker size
@@ -55,9 +56,9 @@ legends{2} = {'0 N', '0.98 N', '1.96 N', '2.94 N', '3.92 N'};
 legends{3} = {'0 N', '0.98 N', '4.91 N', '9.81 N'};
 
 % and the axis limits for each, adjusting for legend placement
-y_lim{1} = [-1 25];
+y_lim{1} = [-2 33];
 y_lim{2} = [-1 25];
-y_lim{3} = [-1 100];
+y_lim{3} = [-5 100];
 
 %% (2) Calculate statistics
 
@@ -126,9 +127,37 @@ for j=3:4
     xlabel('Theta (rad)')
     ylabel('Input Torque (N-cm)')
     ylim(y_lim{j-1});
-    legend(legends{j-1}, 'Location', 'NW')
+    legend(legends{j-1}, 'Location', 'NW', 'FontSize', leg_fontsize);
 end
 
+% Manually specify the plot for design (i), with both the slide and
+% bearing.
+% Create the figure window and size it appropriately
+FigureHandle = figure;
+hold on
+
+% Set up the window
+set(gca, 'FontSize', fontsize);
+set(FigureHandle, 'Position', fig_pos);
+set(FigureHandle, 'PaperPosition', fig_paperpos);
+
+% Plot one curve per load. 
+% For the test with the slide, use a different line style
+errorbar(thetas{1}, means{1}{1}, stddevs{1}{1}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '--');
+
+% Number of means is an easy to use reference
+for k=1:size(means{2}, 2)
+    % with error bars
+    errorbar(thetas{2}, means{2}{k}, stddevs{2}{k}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '-');
+end
+
+% Add the legend, labels, and adjust the axes
+% title('Hardware')
+title(titles{1});
+xlabel('Theta (rad)');
+ylabel('Input Torque (N-cm)');
+ylim(y_lim{1});
+legend(legends{1}, 'Location', 'NW', 'FontSize', leg_fontsize);
 
 
 
