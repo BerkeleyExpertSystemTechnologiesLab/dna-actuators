@@ -62,6 +62,10 @@ i_bearing.theta = [0.25
                     2.375
                     0.00];
 
+% NOTE: we need to rotate Ellande's original ordering so theta = 0 comes
+% first. Do this for everything as opposed to manually trying to reorg
+i_bearing.theta = circshift(i_bearing.theta, 1);
+                
 % One "rotation" is 360 degrees, i.e., 2*pi radians.
 i_bearing.theta = i_bearing.theta .* (2*pi);
 
@@ -81,6 +85,8 @@ i_bearing.g0 = [1	0.7	1.3	1	0.9
                 -1	-0.8	0.1	-1.2	-0.4
                 -0.3	0.3	0.4	0	-0.1];
 
+i_bearing.g0 = circshift(i_bearing.g0, 1, 1);
+
 % 100g
 i_bearing.g100 = [ 1.8	1.6	1.7	2	1.7
                     4.9	4.7	4.6	4.8	5.2
@@ -94,6 +100,8 @@ i_bearing.g100 = [ 1.8	1.6	1.7	2	1.7
                     5.5	4.8	3	4.2	4
                     -0.4	-0.2	0.1	-0.1	0];
 
+i_bearing.g100 = circshift(i_bearing.g100, 1, 1);
+                
 % 200g
 i_bearing.g200 = [ 2	2	1.9	1.9	1.9
                     5.4	5.6	5.2	4.8	5.4
@@ -107,6 +115,8 @@ i_bearing.g200 = [ 2	2	1.9	1.9	1.9
                     10.5	14	14	13	19
                     -0.1	0	-0.1	-0.2	0];
 
+i_bearing.g200 = circshift(i_bearing.g200, 1, 1);                
+                
 % 300g
 i_bearing.g300 = [ 2.9	2.5	2.8	2.5	2.7
                     6.5	5.5	5.7	5.9	5.7
@@ -119,6 +129,8 @@ i_bearing.g300 = [ 2.9	2.5	2.8	2.5	2.7
                     14.6	19.8	13.3	13	18.2
                     13.2	19.1	18	14	12
                     0	-0.3	0	-0.1	0];
+
+i_bearing.g300 = circshift(i_bearing.g300, 1, 1);                
                 
 % 400g
 i_bearing.g400 = [ 2.7	2.7	2.7	2.7	2.6
@@ -133,6 +145,8 @@ i_bearing.g400 = [ 2.7	2.7	2.7	2.7	2.6
                     21	27	26	27	30
                     -0.2	-0.1	0	-0.2	0.1];
 
+i_bearing.g400 = circshift(i_bearing.g400, 1, 1);                
+                
 %% (ii), 0.007 loose fit, bearing
 
 ii = struct;
@@ -150,6 +164,8 @@ ii.theta = [0.25
             2.25
             0.00];
 
+ii.theta = circshift(ii.theta, 1);        
+        
 % One "rotation" is 360 degrees, i.e., 2*pi radians.
 ii.theta = ii.theta .* (2*pi);
 
@@ -165,6 +181,8 @@ ii.g0 = [   1.8	1.4	1.2	1.4	1.4
             1.1	1.3	6	1.2	3.6
             0	-0.2	-0.1	0.1	-0.1];
 
+ii.g0 = circshift(ii.g0, 1, 1);        
+        
 % 100g
 ii.g100 = [ 1.8	1.7	1.4	1.5	1.7
             5.2	5.2	5	4.9	5.1
@@ -177,6 +195,8 @@ ii.g100 = [ 1.8	1.7	1.4	1.5	1.7
             13	5.1	6.3	8.6	12.7
             0	0	0	0	0];
 
+ii.g100 = circshift(ii.g100, 1, 1);        
+        
 % 200g
 ii.g200 = [ 2	1.8	2.4	1.9	2.4
             5.6	5.5	5.4	5.5	5.4
@@ -189,6 +209,8 @@ ii.g200 = [ 2	1.8	2.4	1.9	2.4
             17.9	11.2	14.1	16.2	10.1
             0	0	0	0.1	0];
 
+ii.g200 = circshift(ii.g200, 1, 1);        
+        
 % 300g
 ii.g300 = [ 2.1	2.2	2.2	2.8	2.2
             5.7	6.2	6.3	6.3	6.2
@@ -201,6 +223,8 @@ ii.g300 = [ 2.1	2.2	2.2	2.8	2.2
             15.8	24.4	18.4	15.9	16.3
             0.1	0	0.1	0.1	0];
 
+ii.g300 = circshift(ii.g300, 1, 1);        
+        
 % 400g
 ii.g400 = [ 2.5	2	2.3	2.4	2.3
             6.6	6.6	6.5	6.5	7
@@ -213,6 +237,8 @@ ii.g400 = [ 2.5	2	2.3	2.4	2.3
             22.2	21	21.5	23.3	20.4
             0	0	0	0	0.1];
 
+ii.g400 = circshift(ii.g400, 1, 1);        
+        
 %% (iii), 0.015 loose fit, bearing
 
 iii = struct;        
@@ -229,6 +255,8 @@ iii.theta = [   0.25
                 2.25
                 0.00];
 
+iii.theta = circshift(iii.theta, 1, 1);            
+            
 % One "rotation" is 360 degrees, i.e., 2*pi radians.
 iii.theta = iii.theta .* (2*pi);
 
@@ -244,6 +272,8 @@ iii.g0 = [  13.4	12	11.4	11.1	11.7
             32	40	38.8	40.3	30
             -4	-0.4	-0.4	-0.4	-0.7];
 
+iii.g0 = circshift(iii.g0, 1, 1);        
+        
 iii.g100 = [11	10.3	9.9	9.5	10
             26.1	25.6	24.8	24.3	24.8
             44.7	44.3	43	42.3	43.4
@@ -254,6 +284,8 @@ iii.g100 = [11	10.3	9.9	9.5	10
             49.7	46.8	47.3	48.8	48.1
             41.8	39.4	41.3	42.3	42.4
             -0.1	0	-0.3	-0.3	0.1];
+
+iii.g100 = circshift(iii.g100, 1, 1);        
         
 iii.g500 = [10.6	10.7	9.9	9.9	10.5
             26.5	25.9	25.5	25	25
@@ -266,6 +298,8 @@ iii.g500 = [10.6	10.7	9.9	9.9	10.5
             59.7	57.3	56.6	57.2	58.4
             -0.2	-0.5	-0.7	-0.7	0];
 
+iii.g500 = circshift(iii.g500, 1, 1);        
+        
 iii.g1000 = [   11.1	11.8	11.6	11.6	11.4
                 27.3	28.2	28	27	27
                 47.4	47.1	47.1	45.6	46.6
@@ -277,7 +311,7 @@ iii.g1000 = [   11.1	11.8	11.6	11.6	11.4
                 78.9	76.9	77.5	76.7	77.8
                 -0.5	0	0	0	0];
 
-
+iii.g1000 = circshift(iii.g1000, 1, 1);
 
 
 
