@@ -17,9 +17,6 @@ fig_paperpos = [1,1,5.8,3.5];
 lineWidth = 0.5;
 markerSize = 18;
 
-% We'll cycle through colors for plotting. Let MATLAB decide those...
-
-
 % Load in the data.
 run '../data/imported_test_data_setup2.m'
 
@@ -32,12 +29,30 @@ loads{2} = {'g0', 'g100', 'g200', 'g300', 'g400'};
 loads{3} = loads{2};
 loads{4} = {'g0', 'g100', 'g500', 'g1000'};
 
+% We'll cycle through colors for plotting. We'll want to keep colors
+% consistent between applied forces.
+c_order = get(gca, 'colororder');
+% comes out a bit weird for test 3, try permuting the order
+c_order = circshift(c_order, 3, 1);
+% close the window we just made
+close all;
+% Map the colors to a specific load.
+key_set = {'g0', 'g100', 'g200', 'g300', 'g400', 'g500', 'g1000', 'g0slide'};
+% we need an eigth color for the unloaded slide. Try...
+color_p1 = [0 0 0];
+% concatenate
+c_order_more = [c_order; color_p1];
+% reorganize according to row.
+c_order_more_cell = num2cell(c_order_more, 2);
+% and now create the map.
+load_color_map = containers.Map(key_set, c_order_more_cell);
+
 % For plotting, write out the titles and legends here too (nice for
 % iterating)
 % We'll only have 3 plots.
-titles = {'Force/Torque Test: Design (i)', ...
-    'Force/Torque Test: Design (ii)', ...
-    'Force/Torque Test: Design (iii)'};
+titles = {'Force/Torque Test: Prototype (i)', ...
+    'Force/Torque Test: Prototype (ii)', ...
+    'Force/Torque Test: Prototype (iii)'};
 
 % A quick conversion: we'll label applied force in N.
 % 0 g = 0 N
@@ -69,6 +84,8 @@ means = {};
 stddevs = {};
 % pick out the angles by index also.
 thetas = {};
+% and corresponding colors.
+load_colors = {};
 
 % For all the designs...
 for j=1:size(designs, 2)
@@ -81,6 +98,8 @@ for j=1:size(designs, 2)
         % First, pull out this particular test. Matrix should be (num_theta
         % x num_tests)
         forcetorque_jk = getfield(hardware_data_j, loads{j}{k});
+        % the color for this test
+        load_colors{j}{k} = load_color_map(loads{j}{k});
         % We'll store the means and averages for each test.
         % One test is a row (a specific rotation).
         for h=1:size(forcetorque_jk,1)
@@ -118,7 +137,7 @@ for j=3:4
         % the mean curve
         % plot(thetas{j}, means{j}{k}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '-');
         % with error bars
-        errorbar(thetas{j}, means{j}{k}, stddevs{j}{k}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '-');
+        errorbar(thetas{j}, means{j}{k}, stddevs{j}{k}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '-', 'Color', load_colors{j}{k});
     end
 
     % Add the legend, labels, and adjust the axes
@@ -142,13 +161,13 @@ set(FigureHandle, 'Position', fig_pos);
 set(FigureHandle, 'PaperPosition', fig_paperpos);
 
 % Plot one curve per load. 
-% For the test with the slide, use a different line style
-errorbar(thetas{1}, means{1}{1}, stddevs{1}{1}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '--');
+% For the test with the slide, use a different line style and color
+errorbar(thetas{1}, means{1}{1}, stddevs{1}{1}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '--', 'Color', load_color_map('g0slide'));
 
 % Number of means is an easy to use reference
 for k=1:size(means{2}, 2)
     % with error bars
-    errorbar(thetas{2}, means{2}{k}, stddevs{2}{k}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '-');
+    errorbar(thetas{2}, means{2}{k}, stddevs{2}{k}, 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '-', 'Color', load_colors{2}{k});
 end
 
 % Add the legend, labels, and adjust the axes
