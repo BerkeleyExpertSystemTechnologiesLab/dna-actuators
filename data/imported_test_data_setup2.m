@@ -14,6 +14,16 @@
 
 % NOTE: ALL TORQUE DATA IN N*CM (newton-centimeters)
 
+%% Kinematics
+
+% For the efficiency calculations, we'll estimate the length using the
+% theoretical kinematics.
+% The initial length and radius of all are the same
+
+% in cm,
+L0 = 40.64;
+r = 2.54;
+
 %% (i), 0.007, pretensioned, slide
 
 % This data copied from "restorative_torque_experiment.m", as recorded by

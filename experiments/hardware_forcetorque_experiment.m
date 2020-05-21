@@ -20,6 +20,10 @@ markerSize = 18;
 % Load in the data.
 run '../data/imported_test_data_setup2.m'
 
+% We need the helix_length function
+% Add the paths to the modeling equations
+addpath( '../analytical_models' );
+
 % Hard-coded so we can loop: names of the structs and their fields.
 designs = {'i_slide', 'i_bearing', 'ii', 'iii'};
 % All have a field called theta. There are different fields for each
@@ -70,6 +74,12 @@ legends{1} = {'0 N (slide)', '0 N (bearing)', '0.98 N', ...
 legends{2} = {'0 N', '0.98 N', '1.96 N', '2.94 N', '3.92 N'};
 legends{3} = {'0 N', '0.98 N', '4.91 N', '9.81 N'};
 
+% For calculating efficiencies, we need the actual applied force for each
+% test. The most algorithmic way would be to map the labels to actual
+% forces, similar to the color map. Using same key ordering...
+loads_in_N = {0.0, 0.98, 1.96, 2.94, 3.92, 4.905, 9.81, 0.0};
+load_map = containers.Map(key_set, loads_in_N);
+
 % and the axis limits for each, adjusting for legend placement
 y_lim{1} = [-2 33];
 y_lim{2} = [-1 25];
@@ -84,6 +94,8 @@ means = {};
 stddevs = {};
 % pick out the angles by index also.
 thetas = {};
+% store the lengths for efficiency calculations
+lengths = {};
 % and corresponding colors.
 load_colors = {};
 
@@ -103,11 +115,72 @@ for j=1:size(designs, 2)
         % We'll store the means and averages for each test.
         % One test is a row (a specific rotation).
         for h=1:size(forcetorque_jk,1)
+            % store the length of the actuator for this test. many repeated
+            % variables here but it's easier this way
+            lengths{j}{k}(h) = helix_length(thetas{j}(h), r, L0);
             % 2D cell array w/ vector:
             % {design#}{appliedload}(rotation)
             % which corresponds to j,k,h.
             means{j}{k}(h) = mean(forcetorque_jk(h,:));
             stddevs{j}{k}(h) = std(forcetorque_jk(h,:));
+        end
+    end
+end
+
+%% Also, we need to numerically integrate to get efficiency.
+
+% Calculate the eta for each test: generally,
+% eta = work_in / work_out = (F dL) / (T d\theta)
+% With a constant force,
+% work_in = F(L0 - L(theta))
+% but the torque and angle vary:
+% work_out = \int_0^\theta torque(\phi) \phi d\phi
+
+% Due to the nature of the test, where an applied load was hung on the free
+% end and the actuator was turned from 0 to theta_ijk five times, we do
+% *not* have consistency between test indices!
+% For numerical integration, the correct propogation-of-errors way would be
+% to probabilistically manipulate random variables...
+% ...an easier way is to just use the means, which is what we'll do.
+
+eta_means = {};
+eta_stddevs = {};
+
+% For all the designs...
+for j=1:size(designs,2)
+    % Pull out the data for this design
+    hardware_data_j = eval(designs{j});
+    % For each applied load for this design...
+    for k=1:size(loads{j}, 2)
+        % First, pull out this particular test. Matrix should be (num_theta
+        % x num_tests)
+        torque_jk = getfield(hardware_data_j, loads{j}{k});
+        % Iteratively calculate a trapezoidal approx to the integration.
+        % the efficiency at theta = 0 is always eta = 0, no matter the
+        % input torque.
+        eta_means{j}{k}(1) = 0.0;
+        eta_stddevs{j}{k}(1) = 0.0;
+        % For each angle > 0, for this load, for this design, ...
+        for h=2:size(thetas{j},1)
+            % trapezoid, which is
+            % \int_i-1^theta(i) = (\theta(i) - theta(i-1)) * (tau(i) + tau(i-1))/2
+            % note that torque_jk(h,:) is a vector and everything else is
+            % scalar
+            delta_work_in_jkh = (thetas{j}(h) - thetas{j}(h-1)) ...
+                * (torque_jk(h,:) + means{j}{k}(h-1)) / 2;
+            % Add to the previous mean to get the total
+            work_in_jkh = eta_means{j}{k}(h-1) + delta_work_in_jkh;
+            % The work out is F (L0 - L)
+            work_out_jkh = load_map(loads{j}{k}) * (L0 - lengths{j}{k}(h));
+            % now, a vector of efficiencies, one for each of the 5 tests at
+            % this theta
+            eta_jk = work_out_jkh ./ work_in_jkh;
+            % Correct for division by zero: define eta(0/0) = 0.
+            eta_jk( isnan(eta_jk) ) = 0.0;
+            % Now, eta_jk should be 1 x 5, we can calculate statistics on
+            % it also.
+            eta_means{j}{k}(h) = mean(eta_jk);
+            eta_stddevs{j}{k}(h) = std(eta_jk);
         end
     end
 end
@@ -147,6 +220,17 @@ for j=3:4
     ylabel('Input Torque (N-cm)')
     ylim(y_lim{j-1});
     legend(legends{j-1}, 'Location', 'NW', 'FontSize', leg_fontsize);
+    
+    % Do an efficiency plot also.
+    % Create the figure window and size it appropriately
+    FigureHandle = figure;
+    hold on
+    
+    % Set up the window
+    set(gca, 'FontSize', fontsize);
+    set(FigureHandle, 'Position', fig_pos);
+    set(FigureHandle, 'PaperPosition', fig_paperpos);
+    % efficiency will change with applied load.
 end
 
 % Manually specify the plot for design (i), with both the slide and
