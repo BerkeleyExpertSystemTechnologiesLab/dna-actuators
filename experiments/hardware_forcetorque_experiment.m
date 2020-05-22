@@ -58,6 +58,11 @@ titles = {'Force/Torque Test: Prototype (i)', ...
     'Force/Torque Test: Prototype (ii)', ...
     'Force/Torque Test: Prototype (iii)'};
 
+% And for the efficiencies,
+eta_titles = {'Experimental Efficiency: Prototype (i)', ...
+    'Experimental Efficiency: Prototype (ii)', ...
+    'Experimental Efficiency: Prototype (iii)'};
+
 % A quick conversion: we'll label applied force in N.
 % 0 g = 0 N
 % 100 g = 0.98 N
@@ -145,6 +150,9 @@ end
 
 eta_means = {};
 eta_stddevs = {};
+% We also need to store the ongoing amount of input work, the
+% trapezoidal-approx to \int \tau \theta d\theta.
+work_in = {};
 
 % For all the designs...
 for j=1:size(designs,2)
@@ -160,6 +168,7 @@ for j=1:size(designs,2)
         % input torque.
         eta_means{j}{k}(1) = 0.0;
         eta_stddevs{j}{k}(1) = 0.0;
+        work_in{j}{k}(1) = 0.0;
         % For each angle > 0, for this load, for this design, ...
         for h=2:size(thetas{j},1)
             % trapezoid, which is
@@ -168,13 +177,20 @@ for j=1:size(designs,2)
             % scalar
             delta_work_in_jkh = (thetas{j}(h) - thetas{j}(h-1)) ...
                 * (torque_jk(h,:) + means{j}{k}(h-1)) / 2;
-            % Add to the previous mean to get the total
-            work_in_jkh = eta_means{j}{k}(h-1) + delta_work_in_jkh;
+            % Add to the running sum of input work to get total amount at
+            % this rotation. Delta is a vector, previous is a scalar.
+            work_in_jkh = work_in{j}{k}(h-1) + delta_work_in_jkh;
+            % Store the mean as the estimate of "this rotation"'s work.
+            % Scalar.
+            work_in{j}{k}(h) = mean(work_in_jkh);
+            % work_in{j}{k}(h) = work_in{j}{k}(h-1) + delta_work_in_jkh;
+            % work_in_jkh = eta_means{j}{k}(h-1) + delta_work_in_jkh;
             % The work out is F (L0 - L)
             work_out_jkh = load_map(loads{j}{k}) * (L0 - lengths{j}{k}(h));
             % now, a vector of efficiencies, one for each of the 5 tests at
             % this theta
             eta_jk = work_out_jkh ./ work_in_jkh;
+            % eta_jk = work_out_jkh ./ work_in{j}{k}(h);
             % Correct for division by zero: define eta(0/0) = 0.
             eta_jk( isnan(eta_jk) ) = 0.0;
             % Now, eta_jk should be 1 x 5, we can calculate statistics on
@@ -230,7 +246,22 @@ for j=3:4
     set(gca, 'FontSize', fontsize);
     set(FigureHandle, 'Position', fig_pos);
     set(FigureHandle, 'PaperPosition', fig_paperpos);
+    
     % efficiency will change with applied load.
+    for k=1:size(eta_means{j}, 2)
+        % with error bars
+        % Note that the efficiency of zero at zero doesn't make sense, so
+        % ignore the first datapoint.
+        errorbar(thetas{j}(2:end), eta_means{j}{k}(2:end), eta_stddevs{j}{k}(2:end), 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '-', 'Color', load_colors{j}{k});
+    end
+    
+    % Add the legend, labels, and adjust the axes
+    % title('Hardware')
+    title(eta_titles{j-1});
+    xlabel('Theta (rad)')
+    ylabel('Efficiency, \eta')
+    ylim([0 1.05]);
+    legend(legends{j-1}, 'Location', 'NW', 'FontSize', leg_fontsize);
 end
 
 % Manually specify the plot for design (i), with both the slide and
@@ -262,5 +293,35 @@ ylabel('Input Torque (N-cm)');
 ylim(y_lim{1});
 legend(legends{1}, 'Location', 'NW', 'FontSize', leg_fontsize);
 
+% Do an efficiency plot also.
+% Create the figure window and size it appropriately
+FigureHandle = figure;
+hold on
+
+% Set up the window
+set(gca, 'FontSize', fontsize);
+set(FigureHandle, 'Position', fig_pos);
+set(FigureHandle, 'PaperPosition', fig_paperpos);
+
+% For the test with the slide, use a different line style and color
+% Note that the efficiency of zero at zero doesn't make sense, so
+% ignore the first datapoint.
+errorbar(thetas{1}(2:end), eta_means{1}{1}(2:end), eta_stddevs{1}{1}(2:end), 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '--', 'Color', load_color_map('g0slide'));
+
+% efficiency will change with applied load.
+for k=1:size(eta_means{2}, 2)
+    % with error bars
+    % Note that the efficiency of zero at zero doesn't make sense, so
+    % ignore the first datapoint.
+    errorbar(thetas{2}(2:end), eta_means{2}{k}(2:end), eta_stddevs{2}{k}(2:end), 'LineWidth', lineWidth, 'MarkerSize', markerSize, 'Marker', '.', 'LineStyle', '-', 'Color', load_colors{2}{k});
+end
+
+% Add the legend, labels, and adjust the axes
+% title('Hardware')
+title(eta_titles{1});
+xlabel('Theta (rad)')
+ylabel('Efficiency, \eta')
+ylim([0 1.05]);
+legend(legends{1}, 'Location', 'NW', 'FontSize', leg_fontsize);
 
 
